@@ -1,26 +1,27 @@
 use diesel::prelude::*;
 
-use crate::database::{CocktailIngredient, Constraints, DieselResult, Glass};
+use crate::database::{CocktailAccessory, CocktailIngredient, Constraints, DieselResult, Glass};
 use crate::database::cocktail_category::CocktailCategory;
 use crate::database::schema::cocktail::{self, *};
 use crate::models;
 
 #[derive(Debug, Queryable)]
 pub struct Cocktail {
-    id: i32,
-    name: String,
-    image_link: Option<String>,
-    description: Option<String>,
-    revision_date: i32,
-    notes: Option<String>,
-    category_id: i32,
-    glass_id: i32,
-    ice_cubes: bool,
+    pub(crate) id: i32,
+    pub(crate) name: String,
+    pub(crate) image_link: Option<String>,
+    pub(crate) description: Option<String>,
+    pub(crate) revision_date: i32,
+    pub(crate) notes: Option<String>,
+    pub(crate) category_id: i32,
+    pub(crate) glass_id: i32,
+    pub(crate) ice_cubes: bool,
 }
 
 impl Cocktail {
     fn from_database_model((cocktail, category, glass): (Cocktail, CocktailCategory, Glass), connection: &diesel::PgConnection) -> DieselResult<models::Cocktail> {
         let ingredients = CocktailIngredient::get_by_cocktail(cocktail.id, Constraints::default(), connection)?;
+        let accessories = CocktailAccessory::get_by_cocktail(cocktail.id, Constraints::default(), connection)?;
 
         Ok(models::Cocktail {
             id: cocktail.id,
@@ -33,6 +34,7 @@ impl Cocktail {
             glass,
             ice_cubes: cocktail.ice_cubes,
             ingredients,
+            accessories,
         })
     }
 

@@ -15,10 +15,6 @@ use cockbot_backend::graphql::{MutationRoot, QueryRoot};
 use cockbot_backend::routes;
 
 fn main() {
-    let database_default = "postgres://postgres:password@localhost/cockbot";
-    let connection = PgConnection::establish(database_default)
-        .expect("Failed to create database connection");
-
     rocket::ignite()
         .attach(PrimaryDb::fairing())
         .manage(routes::Schema::new(QueryRoot, MutationRoot))

@@ -1,6 +1,6 @@
 use crate::database::cocktail_category::CocktailCategory;
 use crate::database::Glass;
-use crate::models::CocktailIngredient;
+use crate::models::{CocktailAccessory, CocktailIngredient};
 
 #[derive(Debug, GraphQLObject)]
 pub struct Cocktail {
@@ -14,4 +14,5 @@ pub struct Cocktail {
     pub glass: Glass,
     pub ice_cubes: bool,
     pub ingredients: Vec<CocktailIngredient>,
+    pub accessories: Vec<CocktailAccessory>,
 }
