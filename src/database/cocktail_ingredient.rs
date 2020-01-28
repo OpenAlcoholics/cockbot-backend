@@ -8,7 +8,7 @@ use crate::models;
 pub struct CocktailIngredient {
     // id: i32,
     cocktail_id: i32,
-    ingredient_category_id: i32,
+    category_id: i32,
     share: i32,
     rank: Option<i32>,
 }
@@ -16,7 +16,7 @@ pub struct CocktailIngredient {
 impl CocktailIngredient {
     fn from_database_model((recipe, ingredient_category): (CocktailIngredient, IngredientCategory), connection: &diesel::PgConnection) -> DieselResult<models::CocktailIngredient> {
         Ok(models::CocktailIngredient {
-            ingredient_category,
+            category: ingredient_category,
             share: recipe.share,
             rank: recipe.rank
         })
@@ -49,7 +49,7 @@ impl CocktailIngredient {
     pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<CocktailIngredient> {
         diesel::insert_into(table)
             .values(vec![
-                (cocktail_id.eq(self.cocktail_id), ingredient_category_id.eq(self.ingredient_category_id), share.eq(self.share), rank.eq(self.rank))
+                (cocktail_id.eq(self.cocktail_id), ingredient_category_id.eq(self.category_id), share.eq(self.share), rank.eq(self.rank))
             ])
             .load::<CocktailIngredient>(connection)?
             .pop()

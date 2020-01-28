@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::database::{Constraints, DieselResult, AccessoryCategory};
+use crate::database::{AccessoryCategory, Constraints, DieselResult};
 use crate::database::schema::accessory::{self, *};
 use crate::models;
 
@@ -20,7 +20,7 @@ impl Accessory {
             name: accessory.name,
             description: accessory.description,
             image_link: accessory.image_link,
-            category
+            category,
         }
     }
 
