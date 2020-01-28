@@ -1,0 +1,10 @@
+[package]
+name = "cockbot-backend"
+version = "0.1.0"
+authors = ["Torben Carstens <github@carstens.tech>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+diesel = { version = "1.4.3", features = ["postgres"], default_features = false }
