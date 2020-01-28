@@ -1,5 +1,9 @@
+#![feature(proc_macro_hygiene, decl_macro)]
+
 extern crate cockbot_backend;
 extern crate diesel;
+#[macro_use]
+extern crate rocket;
 
 use diesel::Connection;
 use diesel::pg::PgConnection;
@@ -12,10 +16,9 @@ fn main() {
     let connection = PgConnection::establish(database_default)
         .expect("Failed to create database connection");
 
-    Cocktail::get(Constraints::default(), &connection)
-        .unwrap()
-        .iter()
-        .for_each(|x| {
-            println!("{:#?}", x);
-        })
+    rocket::ignite()
+        // .attach(PrimaryDb::fairing())
+        // .manage(routes::Schema::new(QueryRoot, MutationRoot)
+        .mount("/", routes![])
+        .launch();
 }
