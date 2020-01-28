@@ -1,6 +1,6 @@
 use crate::database::AccessoryCategory;
 
-// TODO: derive GraphQLObject
+#[derive(Debug, GraphQLObject)]
 pub struct Accessory {
     pub id: i32,
     pub name: String,

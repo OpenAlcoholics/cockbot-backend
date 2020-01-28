@@ -3,7 +3,7 @@ use diesel::prelude::*;
 use crate::database::{Constraints, DieselResult};
 use crate::database::schema::glass::{self, *};
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, GraphQLObject, Queryable)]
 pub struct Glass {
     id: i32,
     name: String,

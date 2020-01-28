@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::database::{Constraints, DieselResult, Glass, CocktailIngredient};
+use crate::database::{CocktailIngredient, Constraints, DieselResult, Glass};
 use crate::database::cocktail_category::CocktailCategory;
 use crate::database::schema::cocktail::{self, *};
 use crate::models;
@@ -50,12 +50,12 @@ impl Cocktail {
 
     pub fn get_by_id(cocktail_id: i32, connection: &diesel::PgConnection) -> DieselResult<models::Cocktail> {
         Cocktail::from_database_model(cocktail::table
-            .inner_join(crate::database::schema::cocktail_category::table)
-            .inner_join(crate::database::schema::glass::table)
-            .filter(id.eq(cocktail_id))
-            .load(connection)?
-            .pop()
-            .ok_or(diesel::NotFound)?, connection)
+                                          .inner_join(crate::database::schema::cocktail_category::table)
+                                          .inner_join(crate::database::schema::glass::table)
+                                          .filter(id.eq(cocktail_id))
+                                          .load(connection)?
+                                          .pop()
+                                          .ok_or(diesel::NotFound)?, connection)
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Cocktail` will be simpler though.

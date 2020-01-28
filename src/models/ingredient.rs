@@ -1,6 +1,6 @@
 use crate::database::IngredientCategory;
 
-// TODO: derive GraphQLObject
+#[derive(Debug, GraphQLObject)]
 pub struct Ingredient {
     pub id: i32,
     pub name: String,

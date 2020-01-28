@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 
+use crate::database::{Cocktail, Constraints, DieselResult, IngredientCategory};
 use crate::database::schema::recipe::{self, *};
-use crate::database::{Constraints, DieselResult, IngredientCategory, Cocktail};
 use crate::models;
 
 #[derive(Debug, Queryable)]
@@ -18,7 +18,7 @@ impl CocktailIngredient {
         Ok(models::CocktailIngredient {
             category: ingredient_category,
             share: recipe.share,
-            rank: recipe.rank
+            rank: recipe.rank,
         })
     }
 

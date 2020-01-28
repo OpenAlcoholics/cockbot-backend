@@ -3,7 +3,7 @@ use diesel::prelude::*;
 use crate::database::{Constraints, DieselResult};
 use crate::database::schema::cocktail_category::{self, *};
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, GraphQLObject, Queryable)]
 pub struct CocktailCategory {
     pub(crate) id: i32,
     pub(crate) name: String,

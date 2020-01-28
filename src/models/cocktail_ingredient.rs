@@ -1,7 +1,7 @@
 use crate::database::IngredientCategory;
 use crate::models::Cocktail;
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, GraphQLObject)]
 pub struct CocktailIngredient {
     pub category: IngredientCategory,
     pub share: i32,

@@ -2,7 +2,7 @@ use crate::database::cocktail_category::CocktailCategory;
 use crate::database::Glass;
 use crate::models::CocktailIngredient;
 
-#[derive(Debug, Queryable)]
+#[derive(Debug, GraphQLObject)]
 pub struct Cocktail {
     pub id: i32,
     pub name: String,
@@ -13,5 +13,5 @@ pub struct Cocktail {
     pub category: CocktailCategory,
     pub glass: Glass,
     pub ice_cubes: bool,
-    pub ingredients: Vec<CocktailIngredient>
+    pub ingredients: Vec<CocktailIngredient>,
 }

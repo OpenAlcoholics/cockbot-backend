@@ -7,7 +7,7 @@ use crate::database::schema::cocktail_accessory::{self, *};
 pub struct CocktailAccessory {
     cocktail_id: i32,
     accessory_category_id: i32,
-    pieces: Option<i32>
+    pieces: Option<i32>,
 }
 
 impl CocktailAccessory {
