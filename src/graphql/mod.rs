@@ -1,5 +1,6 @@
 use crate::database::{self, PrimaryDb};
 
+pub(crate) mod inputs;
 pub mod schema;
 
 pub struct Context {
