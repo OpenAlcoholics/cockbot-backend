@@ -8,38 +8,49 @@ use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, 
 
 #[juniper::object (Context = Context)]
 impl MutationRoot {
-    fn accessory(&self, context: &Context, input: AccessoryInput) -> FieldResult<Accessory> {
-        let accessory: database::Accessory = input.into();
-        let accessory = accessory.insert(
-            &context.connection.0
-        )?;
-        let category = AccessoryCategory::get_by_id(accessory.category_id, &context.connection.0)?;
+    fn accessories(&self, context: &Context, inputs: Vec<AccessoryInput>) -> FieldResult<Vec<Accessory>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                let accessory: database::Accessory = input.into();
+                let accessory = accessory.insert(
+                    &context.connection.0
+                )?;
+                let category = AccessoryCategory::get_by_id(accessory.category_id, &context.connection.0)?;
 
-        Ok(Accessory {
-            id: accessory.id,
-            name: accessory.name,
-            description: accessory.description,
-            image_link: accessory.image_link,
-            category,
-        })
+                Ok(Accessory {
+                    id: accessory.id,
+                    name: accessory.name,
+                    description: accessory.description,
+                    image_link: accessory.image_link,
+                    category,
+                })
+            }).collect()
     }
 
-    fn accessory_category(&self, context: &Context, input: AccessoryCategoryInput) -> FieldResult<AccessoryCategory> {
-        let accessory_category: AccessoryCategory = input.into();
-        accessory_category.insert(
-            &context.connection.0
-        ).map_err(Into::into)
+    fn accessory_categories(&self, context: &Context, inputs: Vec<AccessoryCategoryInput>) -> FieldResult<Vec<AccessoryCategory>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                let accessory_category: AccessoryCategory = input.into();
+                accessory_category.insert(
+                    &context.connection.0
+                ).map_err(Into::into)
+            }).collect()
     }
 
-    #[graphql_description = "Returns the ID of the inserted cocktail accessory"]
-    fn cocktail_accessory(&self, context: &Context, input: CocktailAccessoryInput) -> FieldResult<CocktailAccessory> {
-        let model: database::CocktailAccessory = input.into();
-        let cocktail_accessory = model.insert(&context.connection.0)?;
+    fn cocktail_accessory(&self, context: &Context, inputs: Vec<CocktailAccessoryInput>) -> FieldResult<Vec<CocktailAccessory>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                let model: database::CocktailAccessory = input.into();
+                let cocktail_accessory = model.insert(&context.connection.0)?;
 
-        Ok(CocktailAccessory {
-            accessory_category: AccessoryCategory::get_by_id(cocktail_accessory.accessory_category_id, &context.connection.0)?,
-            pieces: cocktail_accessory.pieces,
-        })
+                Ok(CocktailAccessory {
+                    accessory_category: AccessoryCategory::get_by_id(cocktail_accessory.accessory_category_id, &context.connection.0)?,
+                    pieces: cocktail_accessory.pieces,
+                })
+            }).collect()
     }
 }
 
