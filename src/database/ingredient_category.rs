@@ -27,7 +27,7 @@ impl IngredientCategory {
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `IngredientCategory` will be simpler though.
-    pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<IngredientCategory> {
+    pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<IngredientCategory> {
         diesel::insert_into(table)
             .values(vec![
                 (name.eq(self.name), description.eq(self.description), image_link.eq(self.image_link), is_alcoholic.eq(self.is_alcoholic))

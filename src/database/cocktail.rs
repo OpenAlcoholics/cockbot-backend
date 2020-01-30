@@ -61,7 +61,7 @@ impl Cocktail {
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Cocktail` will be simpler though.
-    pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<Cocktail> {
+    pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<Cocktail> {
         diesel::insert_into(table)
             .values(vec![
                 (name.eq(self.name), image_link.eq(self.image_link), description.eq(self.description), revision_date.eq(self.revision_date), notes.eq(self.notes), category_id.eq(self.category_id), glass_id.eq(self.glass_id), ice_cubes.eq(self.ice_cubes))

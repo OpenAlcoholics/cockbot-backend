@@ -20,7 +20,7 @@ impl Glass {
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Accessory` will be simpler though.
-    pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<Glass> {
+    pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<Glass> {
         diesel::insert_into(table)
             .values(vec![
                 (name.eq(self.name), estimated_size.eq(self.estimated_size), image_link.eq(self.image_link))
