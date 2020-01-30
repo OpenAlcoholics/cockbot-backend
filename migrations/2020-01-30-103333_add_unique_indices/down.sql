@@ -1,0 +1,14 @@
+BEGIN TRANSACTION;
+
+DROP INDEX ingredient_category_unique_name_index;
+DROP INDEX glass_unique_name_esize_index;
+DROP INDEX cocktail_category_unique_name_index;
+DROP INDEX cocktail_unique_name_index;
+DROP INDEX ingredient_unique_name_cid_ap_index;
+DROP INDEX recipe_unique_index;
+DROP INDEX accessory_category_unique_name_index;
+DROP INDEX accessory_unique_name_category_index;
+DROP INDEX recipe_ingredient_suggestion_unique_index;
+DROP INDEX recipe_accessory_suggestion_unique_index;
+
+END;
