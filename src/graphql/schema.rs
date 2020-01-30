@@ -78,10 +78,14 @@ impl MutationRoot {
             }).collect()
     }
 
-    fn glass(&self, context: &Context, input: GlassInput) -> FieldResult<Glass> {
-        let model: Glass = input.into();
+    fn glasses(&self, context: &Context, inputs: Vec<GlassInput>) -> FieldResult<Vec<Glass>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                let model: Glass = input.into();
 
-        model.insert(&context.connection.0).map_err(Into::into)
+                model.insert(&context.connection.0).map_err(Into::into)
+            }).collect()
     }
 }
 
