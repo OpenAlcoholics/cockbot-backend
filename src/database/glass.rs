@@ -5,10 +5,10 @@ use crate::database::schema::glass::{self, *};
 
 #[derive(Debug, GraphQLObject, Queryable)]
 pub struct Glass {
-    id: i32,
-    name: String,
-    estimated_size: Option<i32>,
-    image_link: Option<String>,
+    pub(crate) id: i32,
+    pub(crate) name: String,
+    pub(crate) estimated_size: Option<i32>,
+    pub(crate) image_link: Option<String>,
 }
 
 impl Glass {
