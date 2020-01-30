@@ -7,10 +7,10 @@ use crate::models;
 #[derive(Debug, Queryable)]
 pub struct CocktailIngredient {
     // id: i32,
-    cocktail_id: i32,
-    ingredient_category_id: i32,
-    share: i32,
-    rank: Option<i32>,
+    pub(crate) cocktail_id: i32,
+    pub(crate) ingredient_category_id: i32,
+    pub(crate) share: i32,
+    pub(crate) rank: Option<i32>,
 }
 
 impl CocktailIngredient {
@@ -46,7 +46,7 @@ impl CocktailIngredient {
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Recipe` will be simpler though.
-    pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<CocktailIngredient> {
+    pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<CocktailIngredient> {
         diesel::insert_into(table)
             .values(vec![
                 (cocktail_id.eq(self.cocktail_id), ingredient_category_id.eq(self.ingredient_category_id), share.eq(self.share), rank.eq(self.rank))

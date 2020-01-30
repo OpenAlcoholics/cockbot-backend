@@ -20,6 +20,12 @@ impl IngredientCategory {
             .load::<IngredientCategory>(connection)
     }
 
+    pub fn get_by_id(cid: i32, connection: &diesel::PgConnection) -> DieselResult<IngredientCategory> {
+        table
+            .filter(id.eq(cid))
+            .first(connection)
+    }
+
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `IngredientCategory` will be simpler though.
     pub fn insert(self, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<IngredientCategory> {
         diesel::insert_into(table)
