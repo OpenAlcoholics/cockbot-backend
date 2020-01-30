@@ -19,6 +19,12 @@ impl AccessoryCategory {
             .load::<AccessoryCategory>(connection)
     }
 
+    pub fn get_by_id(cid: i32, connection: &diesel::PgConnection) -> DieselResult<AccessoryCategory> {
+        ac::table
+            .filter(ac::columns::id.eq(cid))
+            .first::<AccessoryCategory>(connection)
+    }
+
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `AccessoryCategory` will be simpler though.
     pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<AccessoryCategory> {
         use ac::columns::*;

@@ -2,12 +2,28 @@ use juniper::FieldResult;
 
 use crate::database::{self, AccessoryCategory, CocktailCategory, Glass, IngredientCategory};
 use crate::graphql::{Constraints, Context, MutationRoot, QueryRoot};
-use crate::graphql::inputs::AccessoryCategoryInput;
+use crate::graphql::inputs::{AccessoryCategoryInput, AccessoryInput};
 use crate::graphql::queries::AccessoryCategoryQuery;
 use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, Ingredient};
 
 #[juniper::object (Context = Context)]
 impl MutationRoot {
+    fn accessory(&self, context: &Context, input: AccessoryInput) -> FieldResult<Accessory> {
+        let accessory: database::Accessory = input.into();
+        let accessory = accessory.insert(
+            &context.connection.0
+        )?;
+        let category = AccessoryCategory::get_by_id(accessory.category_id, &context.connection.0)?;
+
+        Ok(Accessory {
+            id: accessory.id,
+            name: accessory.name,
+            description: accessory.description,
+            image_link: accessory.image_link,
+            category,
+        })
+    }
+
     fn accessory_category(&self, context: &Context, input: AccessoryCategoryInput) -> FieldResult<AccessoryCategory> {
         let accessory_category: AccessoryCategory = input.into();
         accessory_category.insert(
