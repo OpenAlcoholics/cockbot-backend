@@ -4,6 +4,9 @@ extern crate diesel;
 #[macro_use]
 extern crate juniper;
 #[macro_use]
+extern crate lazy_static;
+extern crate regex;
+#[macro_use]
 extern crate rocket;
 #[macro_use]
 extern crate rocket_contrib;

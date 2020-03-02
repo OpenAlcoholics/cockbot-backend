@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::database::{CocktailAccessory, CocktailIngredient, Constraints, DieselResult, Glass};
+use crate::database::{CocktailAccessory, CocktailIngredient, CocktailTag, Constraints, DieselResult, Glass, Tag};
 use crate::database::schema::cocktail::{self, *};
 use crate::models;
 
@@ -20,6 +20,7 @@ impl Cocktail {
     fn from_database_model((cocktail, glass): (Cocktail, Glass), connection: &diesel::PgConnection) -> DieselResult<models::Cocktail> {
         let ingredients = CocktailIngredient::get_by_cocktail(cocktail.id, Constraints::default(), connection)?;
         let accessories = CocktailAccessory::get_by_cocktail(cocktail.id, Constraints::default(), connection)?;
+        let tags = Tag::get_by_cocktail(cocktail.id, Constraints::default(), connection)?;
 
         Ok(models::Cocktail {
             id: cocktail.id,
@@ -32,6 +33,7 @@ impl Cocktail {
             ice_cubes: cocktail.ice_cubes,
             ingredients,
             accessories,
+            tags,
         })
     }
 

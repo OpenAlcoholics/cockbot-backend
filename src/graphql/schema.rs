@@ -1,8 +1,8 @@
 use juniper::FieldResult;
 
-use crate::database::{self, AccessoryCategory, Glass, IngredientCategory};
+use crate::database::{self, AccessoryCategory, CocktailTag, Glass, IngredientCategory, Tag};
 use crate::graphql::{Constraints, Context, MutationRoot, QueryRoot};
-use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIngredientInput, GlassInput};
+use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIngredientInput, CocktailTagInput, GlassInput, TagInput};
 use crate::graphql::queries::AccessoryCategoryQuery;
 use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, Ingredient};
 
@@ -68,11 +68,33 @@ impl MutationRoot {
             }).collect()
     }
 
+    fn cocktail_tag(&self, context: &Context, inputs: Vec<CocktailTagInput>) -> FieldResult<Vec<CocktailTag>> {
+        inputs
+            .into_iter()
+            .map(|input: CocktailTagInput| {
+                let tag: CocktailTag = input.into();
+
+                tag
+                    .insert(&context.connection.0)
+                    .map_err(Into::into)
+            }).collect()
+    }
+
     fn glasses(&self, context: &Context, inputs: Vec<GlassInput>) -> FieldResult<Vec<Glass>> {
         inputs
             .into_iter()
             .map(|input| {
                 let model: Glass = input.into();
+
+                model.insert(&context.connection.0).map_err(Into::into)
+            }).collect()
+    }
+
+    fn tags(&self, context: &Context, inputs: Vec<TagInput>) -> FieldResult<Vec<Tag>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                let model: Tag = input.into();
 
                 model.insert(&context.connection.0).map_err(Into::into)
             }).collect()
@@ -104,6 +126,13 @@ impl QueryRoot {
 
     fn glasses(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<Glass>> {
         Glass::get(
+            constraints.unwrap_or_default().into(),
+            &context.connection.0,
+        ).map_err(Into::into)
+    }
+
+    fn tags(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<Tag>> {
+        Tag::get(
             constraints.unwrap_or_default().into(),
             &context.connection.0,
         ).map_err(Into::into)

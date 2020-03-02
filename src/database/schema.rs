@@ -47,6 +47,13 @@ table! {
 }
 
 table! {
+    cocktail_tag (tag_id, cocktail_id) {
+        tag_id -> Varchar,
+        cocktail_id -> Int4,
+    }
+}
+
+table! {
     glass (id) {
         id -> Int4,
         name -> Varchar,
@@ -93,10 +100,20 @@ table! {
     }
 }
 
+table! {
+    tag (id) {
+        id -> Varchar,
+        name -> Varchar,
+        description -> Nullable<Text>,
+    }
+}
+
 joinable!(accessory -> accessory_category (category_id));
 joinable!(cocktail -> glass (glass_id));
 joinable!(cocktail_accessory -> accessory_category (accessory_category_id));
 joinable!(cocktail_accessory -> cocktail (cocktail_id));
+joinable!(cocktail_tag -> cocktail (cocktail_id));
+joinable!(cocktail_tag -> tag (tag_id));
 joinable!(ingredient -> ingredient_category (category_id));
 joinable!(recipe -> cocktail (cocktail_id));
 joinable!(recipe -> ingredient_category (ingredient_category_id));
@@ -107,9 +124,11 @@ allow_tables_to_appear_in_same_query!(
     cocktail,
     cocktail_accessory,
     cocktail_accessory_suggestion,
+    cocktail_tag,
     glass,
     ingredient,
     ingredient_category,
     recipe,
     recipe_ingredient_suggestion,
+    tag,
 );
