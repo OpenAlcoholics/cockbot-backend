@@ -1,4 +1,3 @@
-use crate::database::cocktail_category::CocktailCategory;
 use crate::database::Glass;
 use crate::models::{CocktailAccessory, CocktailIngredient};
 
@@ -10,7 +9,6 @@ pub struct Cocktail {
     pub description: Option<String>,
     pub revision_date: i32,
     pub notes: Option<String>,
-    pub category: CocktailCategory,
     pub glass: Glass,
     pub ice_cubes: bool,
     pub ingredients: Vec<CocktailIngredient>,

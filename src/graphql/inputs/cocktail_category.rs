@@ -1,5 +1,4 @@
 use crate::database;
-use crate::database::CocktailCategory;
 
 #[derive(Debug, GraphQLInputObject)]
 pub struct CocktailCategoryInput {

@@ -25,7 +25,6 @@ table! {
         description -> Nullable<Varchar>,
         revision_date -> Int4,
         notes -> Nullable<Text>,
-        category_id -> Int4,
         glass_id -> Int4,
         ice_cubes -> Bool,
     }
@@ -44,15 +43,6 @@ table! {
         cocktail_id -> Int4,
         accessory_category_id -> Int4,
         accessory_id -> Int4,
-    }
-}
-
-table! {
-    cocktail_category (id) {
-        id -> Int4,
-        name -> Varchar,
-        description -> Nullable<Varchar>,
-        image_link -> Nullable<Varchar>,
     }
 }
 
@@ -104,7 +94,6 @@ table! {
 }
 
 joinable!(accessory -> accessory_category (category_id));
-joinable!(cocktail -> cocktail_category (category_id));
 joinable!(cocktail -> glass (glass_id));
 joinable!(cocktail_accessory -> accessory_category (accessory_category_id));
 joinable!(cocktail_accessory -> cocktail (cocktail_id));
@@ -118,7 +107,6 @@ allow_tables_to_appear_in_same_query!(
     cocktail,
     cocktail_accessory,
     cocktail_accessory_suggestion,
-    cocktail_category,
     glass,
     ingredient,
     ingredient_category,
