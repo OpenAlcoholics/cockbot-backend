@@ -2,7 +2,7 @@ use juniper::FieldResult;
 
 use crate::database::{self, AccessoryCategory, CocktailTag, Glass, IngredientCategory, Tag};
 use crate::graphql::{Constraints, Context, MutationRoot, QueryRoot};
-use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIngredientInput, CocktailTagInput, GlassInput, TagInput};
+use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIDInput, CocktailIngredientInput, CocktailTagInput, GlassInput, TagInput};
 use crate::graphql::queries::AccessoryCategoryQuery;
 use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, Ingredient};
 
@@ -39,6 +39,60 @@ impl MutationRoot {
             }).collect()
     }
 
+    fn cocktail(&self, context: &Context, inputs: Vec<CocktailIDInput>) -> FieldResult<Vec<Cocktail>> {
+        inputs
+            .into_iter()
+            .map(|input| {
+                input
+                    .ingredients
+                    .iter()
+                    .map(|input| {
+                        let model: database::CocktailIngredient = input.into();
+                        model
+                            .insert(&context.connection.0)
+                            .map_err(Into::into)
+                    }).collect::<FieldResult<Vec<database::CocktailIngredient>>>()?;
+                input
+                    .accessories
+                    .unwrap_or(vec![])
+                    .iter()
+                    .map(|input| {
+                        let model: database::CocktailAccessory = input.into();
+                        model
+                            .insert(&context.connection.0)
+                            .map_err(Into::into)
+                    }).collect::<FieldResult<Vec<database::CocktailAccessory>>>()?;
+                input
+                    .tags
+                    .unwrap_or(vec![])
+                    .iter()
+                    .map(|input| {
+                        let model: database::CocktailTag = input.into();
+                        model
+                            .insert(&context.connection.0)
+                            .map_err(Into::into)
+                    }).collect::<FieldResult<Vec<database::CocktailTag>>>()?;
+
+                let cocktail = database::Cocktail {
+                    id: -1,
+                    name: input.name,
+                    image_link: input.image_link,
+                    description: input.description,
+                    revision_date: input.revision_date,
+                    notes: input.notes,
+                    glass_id: input.glass_id,
+                    ice_cubes: input.ice_cubes,
+                };
+
+                let id = cocktail
+                    .insert(&context.connection.0)?
+                    .id;
+
+                database::Cocktail::get_by_id(id, &context.connection.0)
+                    .map_err(Into::into)
+            }).collect()
+    }
+
     fn cocktail_accessory(&self, context: &Context, inputs: Vec<CocktailAccessoryInput>) -> FieldResult<Vec<CocktailAccessory>> {
         inputs
             .into_iter()
@@ -53,7 +107,7 @@ impl MutationRoot {
             }).collect()
     }
 
-    fn cocktail_ingredient(&self, context: &Context, inputs: Vec<CocktailIngredientInput>) -> FieldResult<Vec<CocktailIngredient>> {
+    fn cocktail_ingredients(&self, context: &Context, inputs: Vec<CocktailIngredientInput>) -> FieldResult<Vec<CocktailIngredient>> {
         inputs
             .into_iter()
             .map(|input| {

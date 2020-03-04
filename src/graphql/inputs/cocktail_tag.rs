@@ -14,3 +14,12 @@ impl Into<CocktailTag> for CocktailTagInput {
         }
     }
 }
+
+impl<'a> Into<CocktailTag> for &'a CocktailTagInput {
+    fn into(self) -> CocktailTag {
+        CocktailTag {
+            tag_id: self.tag_id.clone(),
+            cocktail_id: self.cocktail_id,
+        }
+    }
+}

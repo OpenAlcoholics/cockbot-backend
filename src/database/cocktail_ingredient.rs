@@ -4,7 +4,7 @@ use crate::database::{Cocktail, Constraints, DieselResult, IngredientCategory};
 use crate::database::schema::recipe::{self, *};
 use crate::models;
 
-#[derive(Debug, Queryable)]
+#[derive(Clone, Debug, Queryable)]
 pub struct CocktailIngredient {
     // id: i32,
     pub(crate) cocktail_id: i32,

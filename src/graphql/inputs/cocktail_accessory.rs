@@ -16,3 +16,13 @@ impl Into<database::CocktailAccessory> for CocktailAccessoryInput {
         }
     }
 }
+
+impl<'a> Into<database::CocktailAccessory> for &'a CocktailAccessoryInput {
+    fn into(self) -> database::CocktailAccessory {
+        database::CocktailAccessory {
+            cocktail_id: self.cocktail_id,
+            accessory_category_id: self.accessory_category_id,
+            pieces: self.pieces,
+        }
+    }
+}

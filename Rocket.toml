@@ -1,4 +1,4 @@
 [development]
-address = "localhost"
+address = "0.0.0.0"
 [development.databases.primary_db]
 url = "postgres://postgres:password@localhost/cockbot"
