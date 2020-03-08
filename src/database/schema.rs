@@ -54,6 +54,16 @@ table! {
 }
 
 table! {
+    generic_ingredient (id) {
+        id -> Int4,
+        name -> Varchar,
+        description -> Nullable<Varchar>,
+        image_link -> Nullable<Varchar>,
+        is_alcoholic -> Bool,
+    }
+}
+
+table! {
     glass (id) {
         id -> Int4,
         name -> Varchar,
@@ -69,33 +79,23 @@ table! {
         image_link -> Nullable<Varchar>,
         notes -> Nullable<Varchar>,
         alcohol_percentage -> Int4,
-        category_id -> Int4,
+        generic_ingredient_id -> Int4,
     }
 }
 
 table! {
-    ingredient_category (id) {
-        id -> Int4,
-        name -> Varchar,
-        description -> Nullable<Varchar>,
-        image_link -> Nullable<Varchar>,
-        is_alcoholic -> Bool,
-    }
-}
-
-table! {
-    recipe (cocktail_id, ingredient_category_id) {
+    recipe (cocktail_id, generic_ingredient_id) {
         cocktail_id -> Int4,
-        ingredient_category_id -> Int4,
+        generic_ingredient_id -> Int4,
         share -> Int4,
         rank -> Nullable<Int4>,
     }
 }
 
 table! {
-    recipe_ingredient_suggestion (cocktail_id, ingredient_category_id, ingredient_id) {
+    recipe_ingredient_suggestion (cocktail_id, generic_ingredient_id, ingredient_id) {
         cocktail_id -> Int4,
-        ingredient_category_id -> Int4,
+        generic_ingredient_id -> Int4,
         ingredient_id -> Int4,
     }
 }
@@ -114,9 +114,9 @@ joinable!(cocktail_accessory -> accessory_category (accessory_category_id));
 joinable!(cocktail_accessory -> cocktail (cocktail_id));
 joinable!(cocktail_tag -> cocktail (cocktail_id));
 joinable!(cocktail_tag -> tag (tag_id));
-joinable!(ingredient -> ingredient_category (category_id));
+joinable!(ingredient -> generic_ingredient (generic_ingredient_id));
 joinable!(recipe -> cocktail (cocktail_id));
-joinable!(recipe -> ingredient_category (ingredient_category_id));
+joinable!(recipe -> generic_ingredient (generic_ingredient_id));
 
 allow_tables_to_appear_in_same_query!(
     accessory,
@@ -125,9 +125,9 @@ allow_tables_to_appear_in_same_query!(
     cocktail_accessory,
     cocktail_accessory_suggestion,
     cocktail_tag,
+    generic_ingredient,
     glass,
     ingredient,
-    ingredient_category,
     recipe,
     recipe_ingredient_suggestion,
     tag,

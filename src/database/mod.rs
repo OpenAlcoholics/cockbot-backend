@@ -6,7 +6,7 @@ pub use cocktail_ingredient::CocktailIngredient;
 pub use cocktail_tag::CocktailTag;
 pub use glass::Glass;
 pub use ingredient::Ingredient;
-pub use ingredient_category::IngredientCategory;
+pub use generic_ingredient::GenericIngredient;
 pub use primary::PrimaryDb;
 pub use tag::Tag;
 
@@ -17,7 +17,7 @@ pub mod cocktail_tag;
 pub mod cocktail_accessory;
 pub mod glass;
 pub mod ingredient;
-pub mod ingredient_category;
+pub mod generic_ingredient;
 pub mod cocktail_ingredient;
 pub mod tag;
 pub(crate) mod schema;

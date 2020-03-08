@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-DROP INDEX ingredient_category_unique_name_index;
+DROP INDEX generic_ingredient_unique_name_index;
 DROP INDEX glass_unique_name_esize_index;
 DROP INDEX cocktail_category_unique_name_index;
 DROP INDEX cocktail_unique_name_index;

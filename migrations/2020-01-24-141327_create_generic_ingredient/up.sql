@@ -1,4 +1,4 @@
-CREATE TABLE ingredient_category
+CREATE TABLE generic_ingredient
 (
     id           SERIAL UNIQUE PRIMARY KEY NOT NULL,
     name         varchar(255)              NOT NULL,

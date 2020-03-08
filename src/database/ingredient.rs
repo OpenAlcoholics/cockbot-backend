@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::database::{Constraints, DieselResult, IngredientCategory};
+use crate::database::{Constraints, DieselResult, GenericIngredient};
 use crate::database::schema::ingredient::{self, *};
 use crate::models;
 
@@ -11,24 +11,24 @@ pub struct Ingredient {
     image_link: Option<String>,
     notes: Option<String>,
     alcohol_percentage: i32,
-    category_id: i32,
+    generic_ingredient_id: i32,
 }
 
 impl Ingredient {
-    fn from_database_model((ingredient, category): (Ingredient, IngredientCategory)) -> models::Ingredient {
+    fn from_database_model((ingredient, category): (Ingredient, GenericIngredient)) -> models::Ingredient {
         models::Ingredient {
             id: ingredient.id,
             name: ingredient.name,
             image_link: ingredient.image_link,
             notes: ingredient.notes,
             alcohol_percentage: ingredient.alcohol_percentage,
-            category,
+            generic_ingredient: category,
         }
     }
 
     pub fn get(constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<Vec<models::Ingredient>> {
         Ok(ingredient::table
-            .inner_join(crate::database::schema::ingredient_category::table)
+            .inner_join(crate::database::schema::generic_ingredient::table)
             .limit(constraints.limit)
             .offset(constraints.offset)
             .load(connection)?
@@ -41,7 +41,7 @@ impl Ingredient {
     pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<Ingredient> {
         diesel::insert_into(table)
             .values(vec![
-                (name.eq(self.name), image_link.eq(self.image_link), notes.eq(self.notes), alcohol_percentage.eq(self.alcohol_percentage), category_id.eq(self.category_id))
+                (name.eq(self.name), image_link.eq(self.image_link), notes.eq(self.notes), alcohol_percentage.eq(self.alcohol_percentage), generic_ingredient_id.eq(self.generic_ingredient_id))
             ])
             .load::<Ingredient>(connection)?
             .pop()

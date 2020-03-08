@@ -1,2 +1,2 @@
 DELETE
-FROM ingredient_category;
+FROM generic_ingredient;

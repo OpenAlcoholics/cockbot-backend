@@ -5,6 +5,6 @@ CREATE TABLE ingredient
     image_link         varchar(512),
     notes              varchar(1024),
     alcohol_percentage integer DEFAULT 0         NOT NULL,
-    category_id        integer                   NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES ingredient_category (id) ON DELETE CASCADE ON UPDATE CASCADE
+    generic_ingredient_id        integer                   NOT NULL,
+    FOREIGN KEY (generic_ingredient_id) REFERENCES generic_ingredient (id) ON DELETE CASCADE ON UPDATE CASCADE
 );

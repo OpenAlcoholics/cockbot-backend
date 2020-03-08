@@ -1,6 +1,6 @@
 use juniper::FieldResult;
 
-use crate::database::{self, AccessoryCategory, CocktailTag, Glass, IngredientCategory, Tag};
+use crate::database::{self, AccessoryCategory, CocktailTag, GenericIngredient, Glass, Tag};
 use crate::graphql::{Constraints, Context, MutationRoot, QueryRoot};
 use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIDInput, CocktailIngredientInput, CocktailTagInput, GlassInput, TagInput};
 use crate::graphql::queries::AccessoryCategoryQuery;
@@ -115,7 +115,7 @@ impl MutationRoot {
                 let cocktail_ingredient = model.insert(&context.connection.0)?;
 
                 Ok(CocktailIngredient {
-                    category: IngredientCategory::get_by_id(cocktail_ingredient.ingredient_category_id, &context.connection.0)?,
+                    generic_ingredient: GenericIngredient::get_by_id(cocktail_ingredient.generic_ingredient_id, &context.connection.0)?,
                     share: cocktail_ingredient.share,
                     rank: cocktail_ingredient.rank,
                 })
@@ -199,8 +199,8 @@ impl QueryRoot {
         ).map_err(Into::into)
     }
 
-    fn ingredient_categories(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<IngredientCategory>> {
-        IngredientCategory::get(
+    fn ingredient_categories(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<GenericIngredient>> {
+        GenericIngredient::get(
             constraints.unwrap_or_default().into(),
             &context.connection.0,
         ).map_err(Into::into)

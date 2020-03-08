@@ -1,4 +1,4 @@
-use crate::database::IngredientCategory;
+use crate::database::GenericIngredient;
 
 #[derive(Debug, GraphQLObject)]
 pub struct Ingredient {
@@ -7,5 +7,5 @@ pub struct Ingredient {
     pub image_link: Option<String>,
     pub notes: Option<String>,
     pub alcohol_percentage: i32,
-    pub category: IngredientCategory,
+    pub generic_ingredient: GenericIngredient,
 }
