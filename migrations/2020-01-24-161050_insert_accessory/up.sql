@@ -36,4 +36,16 @@ VALUES ('Mint',
         '',
         (SELECT id FROM accessory_category WHERE accessory_category.name = 'Herbs'));
 
+INSERT INTO accessory (name, description, image_link, category_id)
+VALUES ('Grapefruit slice',
+        'Slice of a grapefruit',
+        'https://live.staticflickr.com/4068/4283381883_e474483c5b_b.jpg',
+        (SELECT id FROM accessory_category WHERE accessory_category.name = 'Grapefruit'));
+
+INSERT INTO accessory (name, description, image_link, category_id)
+VALUES ('Blueberry',
+        'Slice of a grapefruit',
+        'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/blueberries-1296x728-feature.jpg',
+        (SELECT id FROM accessory_category WHERE accessory_category.name = 'Blueberry'));
+
 END;

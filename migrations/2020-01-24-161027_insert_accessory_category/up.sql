@@ -41,4 +41,15 @@ VALUES ('Orange',
         '',
         '');
 
+
+INSERT INTO accessory_category (name, description, image_link)
+VALUES ('Grapefruit',
+        '',
+        '');
+
+INSERT INTO accessory_category (name, description, image_link)
+VALUES ('Blueberry',
+        '',
+        '');
+
 END;
