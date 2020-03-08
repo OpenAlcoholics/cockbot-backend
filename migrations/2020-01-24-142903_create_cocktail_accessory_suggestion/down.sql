@@ -1,1 +1,0 @@
-DROP TABLE cocktail_accessory_suggestion;

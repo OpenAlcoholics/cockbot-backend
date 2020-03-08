@@ -12,7 +12,7 @@ pub struct CocktailAccessory {
 }
 
 impl CocktailAccessory {
-    fn from_database_model((cocktail_accessory, accessory_category): (CocktailAccessory, AccessoryCategory), connection: &diesel::PgConnection) -> DieselResult<models::CocktailAccessory> {
+    fn from_database_model((cocktail_accessory, accessory_category): (CocktailAccessory, AccessoryCategory)) -> DieselResult<models::CocktailAccessory> {
         Ok(models::CocktailAccessory {
             accessory_category,
             pieces: cocktail_accessory.pieces,
@@ -26,7 +26,7 @@ impl CocktailAccessory {
             .offset(constraints.offset)
             .load(connection)?
             .into_iter()
-            .map(|x| CocktailAccessory::from_database_model(x, connection))
+            .map(|x| CocktailAccessory::from_database_model(x))
             .collect()
     }
 
@@ -38,7 +38,7 @@ impl CocktailAccessory {
             .filter(cocktail_id.eq(cid))
             .load(connection)?
             .into_iter()
-            .map(|x| CocktailAccessory::from_database_model(x, connection))
+            .map(|x| CocktailAccessory::from_database_model(x))
             .collect()
     }
 

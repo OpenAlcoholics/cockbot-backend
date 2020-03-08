@@ -41,7 +41,7 @@ impl CocktailIngredient {
             .filter(cocktail_id.eq(cid))
             .load(connection)?
             .into_iter()
-            .map(|x| CocktailIngredient::from_database_model(xf))
+            .map(|x| CocktailIngredient::from_database_model(x))
             .collect()
     }
 

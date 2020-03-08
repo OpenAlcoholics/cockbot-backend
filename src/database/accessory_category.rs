@@ -2,7 +2,6 @@ use diesel::prelude::*;
 
 use crate::database::{Constraints, DieselResult};
 use crate::database::schema::accessory_category as ac;
-use crate::graphql::queries::AccessoryCategoryQuery;
 
 #[derive(Debug, GraphQLObject, Queryable)]
 pub struct AccessoryCategory {

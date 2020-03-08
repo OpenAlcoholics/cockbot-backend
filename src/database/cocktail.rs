@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::database::{CocktailAccessory, CocktailIngredient, CocktailTag, Constraints, DieselResult, Glass, Tag};
+use crate::database::{CocktailAccessory, CocktailIngredient, Constraints, DieselResult, Glass, Tag};
 use crate::database::schema::cocktail::{self, *};
 use crate::models;
 

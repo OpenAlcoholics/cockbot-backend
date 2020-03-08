@@ -4,7 +4,7 @@ use crate::database::{self, AccessoryCategory, CocktailTag, GenericIngredient, G
 use crate::graphql::{Constraints, Context, MutationRoot, QueryRoot};
 use crate::graphql::inputs::{self, AccessoryCategoryInput, AccessoryInput, CocktailAccessoryInput, CocktailIDInput, CocktailIngredientInput, CocktailTagInput, GlassInput, TagInput};
 use crate::graphql::queries::AccessoryCategoryQuery;
-use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, Ingredient};
+use crate::models::{Accessory, Cocktail, CocktailAccessory, CocktailIngredient, Ingredient, Variation};
 
 #[juniper::object (Context = Context)]
 impl MutationRoot {
@@ -201,6 +201,13 @@ impl QueryRoot {
 
     fn ingredient_categories(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<GenericIngredient>> {
         GenericIngredient::get(
+            constraints.unwrap_or_default().into(),
+            &context.connection.0,
+        ).map_err(Into::into)
+    }
+
+    fn variations(&self, context: &Context, constraints: Option<Constraints>) -> FieldResult<Vec<Variation>> {
+        database::Variation::get(
             constraints.unwrap_or_default().into(),
             &context.connection.0,
         ).map_err(Into::into)
