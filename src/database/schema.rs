@@ -100,6 +100,20 @@ table! {
     }
 }
 
+table! {
+    variation_accessory (variation_id, accessory_id) {
+        variation_id -> Int4,
+        accessory_id -> Int4,
+    }
+}
+
+table! {
+    variation_ingredient (variation_id, ingredient_id) {
+        variation_id -> Int4,
+        ingredient_id -> Int4,
+    }
+}
+
 joinable!(accessory -> accessory_category (category_id));
 joinable!(cocktail -> glass (glass_id));
 joinable!(cocktail_accessory -> accessory_category (accessory_category_id));
@@ -123,4 +137,6 @@ allow_tables_to_appear_in_same_query!(
     recipe,
     tag,
     variation,
+    variation_accessory,
+    variation_ingredient,
 );

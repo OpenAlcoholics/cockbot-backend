@@ -10,6 +10,8 @@ pub use ingredient::Ingredient;
 pub use primary::PrimaryDb;
 pub use tag::Tag;
 pub use variation::Variation;
+pub use variation_accessory::VariationAccessory;
+pub use variation_ingredient::VariationIngredient;
 
 pub mod accessory;
 pub mod accessory_category;
@@ -22,6 +24,8 @@ pub mod generic_ingredient;
 pub mod cocktail_ingredient;
 pub mod tag;
 pub mod variation;
+pub mod variation_ingredient;
+pub mod variation_accessory;
 pub(crate) mod schema;
 mod primary;
 

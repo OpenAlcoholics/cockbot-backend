@@ -34,6 +34,17 @@ impl Variation {
             .collect()
     }
 
+    pub fn get_by_id(vid: i32, connection: &diesel::PgConnection) -> DieselResult<models::Variation> {
+        Variation::from_database_model(
+            table
+                .inner_join(crate::database::schema::cocktail::table)
+                .filter(id.eq(vid))
+                .load::<(Variation, Cocktail)>(connection)?
+                .pop()
+                .ok_or(diesel::NotFound)?
+            , connection)
+    }
+
     pub fn get_by_cocktail(cid: i32, constraints: Constraints, connection: &diesel::PgConnection) -> DieselResult<models::Variation> {
         Variation::from_database_model(
             table

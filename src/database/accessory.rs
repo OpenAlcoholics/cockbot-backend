@@ -35,6 +35,16 @@ impl Accessory {
             .collect())
     }
 
+    pub fn get_by_id(aid: i32, connection: &diesel::PgConnection) -> DieselResult<models::Accessory> {
+        Ok(Accessory::from_database_model(accessory::table
+            .inner_join(crate::database::schema::accessory_category::table)
+            .filter(id.eq(aid))
+            .load(connection)?
+            .pop()
+            .ok_or(diesel::NotFound)?
+        ))
+    }
+
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Accessory` will be simpler though.
     pub fn insert(self, connection: &diesel::PgConnection) -> DieselResult<Accessory> {
         diesel::insert_into(table)

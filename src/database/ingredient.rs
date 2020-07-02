@@ -6,23 +6,23 @@ use crate::models;
 
 #[derive(Debug, Queryable)]
 pub struct Ingredient {
-    id: i32,
-    name: String,
-    image_link: Option<String>,
-    notes: Option<String>,
-    alcohol_percentage: i32,
-    generic_ingredient_id: i32,
+    pub(crate) id: i32,
+    pub(crate) name: String,
+    pub(crate) image_link: Option<String>,
+    pub(crate) notes: Option<String>,
+    pub(crate) alcohol_percentage: i32,
+    pub(crate) generic_ingredient_id: i32,
 }
 
 impl Ingredient {
-    fn from_database_model((ingredient, category): (Ingredient, GenericIngredient)) -> models::Ingredient {
+    fn from_database_model((ingredient, generic_ingredient): (Ingredient, GenericIngredient)) -> models::Ingredient {
         models::Ingredient {
             id: ingredient.id,
             name: ingredient.name,
             image_link: ingredient.image_link,
             notes: ingredient.notes,
             alcohol_percentage: ingredient.alcohol_percentage,
-            generic_ingredient: category,
+            generic_ingredient,
         }
     }
 
@@ -35,6 +35,15 @@ impl Ingredient {
             .into_iter()
             .map(Ingredient::from_database_model)
             .collect())
+    }
+
+    pub fn get_by_id(iid: i32, connection: &diesel::PgConnection) -> DieselResult<models::Ingredient> {
+        Ok(Ingredient::from_database_model(ingredient::table
+            .inner_join(crate::database::schema::generic_ingredient::table)
+            .filter(id.eq(iid))
+            .load(connection)?
+            .pop()
+            .ok_or(diesel::NotFound)?))
     }
 
     // This poses a little bit more work than defining a second struct which derives from `Insertable`, the rest of the code which uses `Ingredient` will be simpler though.

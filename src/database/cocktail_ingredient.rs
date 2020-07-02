@@ -16,7 +16,7 @@ pub struct CocktailIngredient {
 impl CocktailIngredient {
     fn from_database_model((recipe, generic_ingredient): (CocktailIngredient, GenericIngredient)) -> DieselResult<models::CocktailIngredient> {
         Ok(models::CocktailIngredient {
-            generic_ingredient: generic_ingredient,
+            generic_ingredient,
             share: recipe.share,
             rank: recipe.rank,
         })
